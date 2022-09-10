@@ -14,7 +14,7 @@ search.addEventListener('keypress', function (e) {
 
 function searchMovies() {
     bodyText.innerHTML = 'We collect your movies . . .';
-    fetch(`http://www.omdbapi.com/?apikey=a0861315&s=${search.value}`)
+    fetch(`https://www.omdbapi.com/?apikey=a0861315&s=${search.value}`)
         .then((response) => response.json())
         .then((data) => showResult(data.Search))
         .catch(() => searchMovies());
@@ -24,7 +24,7 @@ function showResult(movies) {
     bodyText.style.display = 'none';
     let moviesList = '';
     movies.forEach(e => {
-        fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.imdbID}`)
+        fetch(`https://www.omdbapi.com/?apikey=a0861315&i=${e.imdbID}`)
             .then((response) => response.json())
             .then((jsonFile) => {
                 console.log(jsonFile);
@@ -36,7 +36,7 @@ function showResult(movies) {
 
                 detailsButton.forEach(function (e) {
                     e.addEventListener('click', function () {
-                        fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.value}`)
+                        fetch(`https://www.omdbapi.com/?apikey=a0861315&i=${e.value}`)
                             .then((response) => response.json())
                             .then((jsonFile) => showDetail(jsonFile))
                             .catch(function () {
