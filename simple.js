@@ -1,10 +1,19 @@
 const card = document.querySelector('.main-container');
 const search = document.querySelector('.search-input');
 const searchButton = document.querySelector('.button-search');
+const bodyText = document.querySelector('.body-text');
 
-searchButton.addEventListener('click', searchMovies);
+searchButton.addEventListener('click', () => {
+    searchMovies();
+});
+search.addEventListener('keypress', function (e) {
+    if (e.key === "Enter") {
+        searchMovies();
+    }
+})
 
 function searchMovies() {
+    bodyText.innerHTML = 'We collect your movies . . .';
     fetch(`http://www.omdbapi.com/?apikey=a0861315&s=${search.value}`)
         .then((response) => response.json())
         .then((data) => showResult(data.Search))
@@ -12,6 +21,7 @@ function searchMovies() {
 }
 
 function showResult(movies) {
+    bodyText.style.display = 'none';
     let moviesList = '';
     movies.forEach(e => {
         fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.imdbID}`)
