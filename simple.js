@@ -8,38 +8,34 @@ function searchMovies() {
     fetch(`http://www.omdbapi.com/?apikey=a0861315&s=${search.value}`)
         .then((response) => response.json())
         .then((data) => showResult(data.Search))
-        .catch(() => showResult(false))
+        .catch(() => searchMovies());
 }
 
 function showResult(movies) {
-    if (!movies) {
-        searchMovies();
-    } else {
-        let moviesList = '';
-        movies.forEach(e => {
-            fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.imdbID}`)
-                .then((response) => response.json())
-                .then((jsonFile) => {
-                    console.log(jsonFile);
-                    moviesList += showList(e, jsonFile.imdbRating, jsonFile.Runtime);
+    let moviesList = '';
+    movies.forEach(e => {
+        fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.imdbID}`)
+            .then((response) => response.json())
+            .then((jsonFile) => {
+                console.log(jsonFile);
+                moviesList += showList(e, jsonFile.imdbRating, jsonFile.Runtime);
 
-                    card.innerHTML = moviesList;
+                card.innerHTML = moviesList;
 
-                    const detailsButton = document.querySelectorAll('.details-button');
+                const detailsButton = document.querySelectorAll('.details-button');
 
-                    detailsButton.forEach(function (e) {
-                        e.addEventListener('click', function () {
-                            fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.value}`)
-                                .then((response) => response.json())
-                                .then((jsonFile) => showDetail(jsonFile))
-                                .catch(function () {
-                                    return false;
-                                });
-                        });
+                detailsButton.forEach(function (e) {
+                    e.addEventListener('click', function () {
+                        fetch(`http://www.omdbapi.com/?apikey=a0861315&i=${e.value}`)
+                            .then((response) => response.json())
+                            .then((jsonFile) => showDetail(jsonFile))
+                            .catch(function () {
+                                return false;
+                            });
                     });
                 });
-        })
-    }
+            });
+    });
 };
 
 function showList(movies, rating, dura) {
